@@ -4,8 +4,10 @@ import restaurantController from "./controllers/restaurant.controller";
 const router = express.Router();
 
 
-router.get('/admin', restaurantController.goHome); //SPA: REACT
-router.get('/', memberController.goHome); //SPA: REACT
+router
+  .post('/login', memberController.login);
+router
+  .post("/signup", memberController.signup);
 
 export default router;
 

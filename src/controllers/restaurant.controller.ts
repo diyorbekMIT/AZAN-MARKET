@@ -5,12 +5,13 @@ import { LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import { InputType } from "zlib";
 
+const memberService =  new MemberService();
 const restaurantController: T = {};
 
 restaurantController.goHome = (req: Request, res: Response) => {
     try {
       console.log("goHome");
-       res.send("HELLO MOTHER FUCKER BITCH")
+       res.render("home")
     } catch(err) {
        console.log("getSignup", err)
     }
@@ -20,7 +21,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
 restaurantController.getLogin = (req: Request, res: Response) => {
     try {
       console.log("getLogin");
-       res.send("getLogin")
+       res.render("login")
     } catch(err) {
        console.log("getSignup", err)
     }
@@ -30,7 +31,6 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 restaurantController.processLogin = async (req: Request, res: Response) => {
    try {
       const newMember: LoginInput = req.body;
-      const memberService =  new MemberService();
       const result =  await memberService.processLogin(newMember);
      console.log("processLogin");
       res.send(result);
@@ -43,7 +43,7 @@ restaurantController.processLogin = async (req: Request, res: Response) => {
 restaurantController.getSignup = (req: Request, res: Response) => {
     try {
       console.log("getSignup");
-       res.send("getSignup")
+       res.render("signup")
     } catch(err) {
        console.log("getSignup", err)
     }
@@ -55,7 +55,6 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
      console.log("processSignup");
      const newMember: MemberInput = req.body;
      newMember.memberType = MemberType.RESTAURTANT;
-     const memberService =  new MemberService();
      const result =  await memberService.processSignup(newMember);
      console.log(result);
       res.send(result);
