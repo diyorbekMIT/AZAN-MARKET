@@ -18,6 +18,8 @@ export enum Message {
     NO_MEMBER_NICK = "No member with that member nick",
     USED_MEMBER_PHONE = "You are inserting already used nick or phone",
     WRONG_PASSWORD = "Wrong password",
+
+    NOT_AUTHENTICATED = "Not authorized"
 }
 
 class Errors extends Error {

@@ -12,6 +12,10 @@ routerAdmin
   .get('/signup', restaurantController.getSignup)
   .post("/signup", restaurantController.processSignup);
 
+routerAdmin.get('/check-auth', restaurantController.checkAuth);
+
+routerAdmin.get('/logout', restaurantController.logout);
+
 
 export default routerAdmin;
 

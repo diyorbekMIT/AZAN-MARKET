@@ -4,6 +4,7 @@ import MemberService from "../models/Member.service"
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import { InputType } from "zlib";
+import { Message } from "../libs/Errors";
 
 const memberService =  new MemberService();
 const restaurantController: T = {};
@@ -78,6 +79,30 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
       res.send(err);
    }
 }
+
+restaurantController.checkAuth = async (req: AdminRequest, res: Response) => {
+   try {
+     if(req.session?.member) res.send(`   Hi ${req.session.member.memberNick}`)
+     else res.send(Message.NOT_AUTHENTICATED);
+   } catch(err) {
+      console.log("processLogin", err);
+      res.send(err);
+   }
+}
+
+restaurantController.logout = async (req: AdminRequest, res: Response) => {
+   try {
+      console.log("logout");
+      req.session.destroy(function() {
+      res.redirect("/admin")
+     })
+   } catch(err) {
+      console.log("errorLogout", err);
+      res.send(err);
+   }
+}
+
+
 
 
 
