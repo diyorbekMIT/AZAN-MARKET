@@ -4,7 +4,7 @@ import MemberService from "../models/Member.service"
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import { InputType } from "zlib";
-import { Message } from "../libs/Errors";
+import Errors, { Message } from "../libs/Errors";
 
 const memberService =  new MemberService();
 const restaurantController: T = {};
@@ -41,26 +41,31 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 
 
 restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
-   try {
-     console.log("processSignup");
-     const newMember: MemberInput = req.body;
-     newMember.memberType = MemberType.RESTAURTANT;
-     const result =  await memberService.processSignup(newMember);
+	try {
+		console.log("processSignup!");
+        const file = req.file;
+        
+		const newMember: MemberInput = req.body;
+        newMember.memberImage = file?.path;
+		newMember.memberType = MemberType.RESTAURTANT;
 
-     
-     req.session.member = result;
-     req.session.save(function () {
-      res.end(result)
-     })
+		const memberService = new MemberService();
+		const result = await memberService.processSignup(newMember);
+  
+        req.session.member = result;
+        req.session.save(function() {
+         
+        });
 
-     console.log(result);
-      res.send(result);
-   } catch(err) {
-      console.log("processSignup", err);
-      res.send(err);
-   }
-   
-}
+        res.send(result);
+    } catch (err) {
+        console.log("Error, processLogin", err);
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        res.send(
+            `<script> alert("${message}"); window.location.replace('/admin/signup') </script>`
+        );
+	}
+};
 
 
 

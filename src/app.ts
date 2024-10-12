@@ -8,6 +8,7 @@ import morgan from "morgan";
 
 import session from "express-session";
 import ConnectMongoDb from "connect-mongodb-session";
+import { T } from "./libs/types/common";
 
 const MongoDbStore = ConnectMongoDb(session);
 const store = new MongoDbStore({
@@ -32,6 +33,13 @@ app.use(session({
     cookie: { maxAge: 1000 * 3600 * 3 },
     saveUninitialized: true,  
 }))
+
+app.use(function (req, res, next) {
+    const sessionInstance = req.session as T;
+    res.locals.member = sessionInstance.member;
+    next();
+});
+
 
 
 

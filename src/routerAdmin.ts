@@ -1,6 +1,7 @@
 import express, {Request, Response} from "express";
 import memberController from "./controllers/member.controller";
 import restaurantController from "./controllers/restaurant.controller";
+import makeUploader from "./libs/utils/uploader";
 const routerAdmin = express.Router();
 
 
@@ -10,7 +11,7 @@ routerAdmin
   .post('/login', restaurantController.processLogin);
 routerAdmin
   .get('/signup', restaurantController.getSignup)
-  .post("/signup", restaurantController.processSignup);
+  .post("/signup",makeUploader("members").single("memberImage") , restaurantController.processSignup);
 
 routerAdmin.get('/check-auth', restaurantController.checkAuth);
 
