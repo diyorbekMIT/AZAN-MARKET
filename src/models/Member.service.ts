@@ -2,7 +2,7 @@ import MemberModel from "../schema/Member.model";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import Errors, { HttpCode } from "../libs/Errors";
 import { Message } from "../libs/Errors";
-import { MemberType } from "../libs/enums/member.enum";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import * as bcrypt from "bcryptjs"
 
 class MemberService {
@@ -73,6 +73,15 @@ class MemberService {
             throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
         }
         return await this.memberModel.findById(member._id).exec() as Member;
+    }
+
+
+    public async getUsers(): Promise<Member[]> {
+
+      const result =  await this.memberModel.find({memberType: MemberType.USER}).exec();
+      console.log("users ", result);
+      return result;
+
     }
 }
 

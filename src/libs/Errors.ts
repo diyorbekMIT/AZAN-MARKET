@@ -2,6 +2,7 @@ export enum HttpCode {
     OK = 200,
     CREATED = 201,
     NOT_MODIFIED = 304,
+    SOMETHING_WENT_WRONG_MESSAGE = 400,
     BAD_REQUEST = 400,
     UNAUTHORIZED = 401,
     FORBIDDEN = 403,
@@ -18,6 +19,7 @@ export enum Message {
     NO_MEMBER_NICK = "No member with that member nick",
     USED_MEMBER_PHONE = "You are inserting already used nick or phone",
     WRONG_PASSWORD = "Wrong password",
+    BAD_REQUEST = "Bad request",
 
     NOT_AUTHENTICATED = "Not authorized"
 }

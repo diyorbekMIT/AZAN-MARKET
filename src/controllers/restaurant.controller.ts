@@ -1,10 +1,10 @@
 import { T } from "../libs/types/common";
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import MemberService from "../models/Member.service"
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import { InputType } from "zlib";
-import Errors, { Message } from "../libs/Errors";
+import Errors, { HttpCode, Message } from "../libs/Errors";
 
 const memberService =  new MemberService();
 const restaurantController: T = {};
@@ -24,7 +24,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
       console.log("getLogin");
        res.render("login")
     } catch(err) {
-       console.log("getSignup", err)
+       console.log("getLogin", err)
     }
     
 }
@@ -44,6 +44,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 	try {
 		console.log("processSignup!");
         const file = req.file;
+        if (!file) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
         
 		const newMember: MemberInput = req.body;
         newMember.memberImage = file?.path;
@@ -54,10 +55,10 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
   
         req.session.member = result;
         req.session.save(function() {
-         
+           res.redirect("/admin/product/all")
         });
 
-        res.send(result);
+        
     } catch (err) {
         console.log("Error, processLogin", err);
         const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
@@ -77,7 +78,7 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
 
      req.session.member = result;
      req.session.save(function () {
-      res.send(result)
+      res.redirect("/admin/product/all")
      })
    } catch(err) {
       console.log("processLogin", err);
@@ -108,8 +109,31 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
 }
 
 
+restaurantController.getUsers = async (req: AdminRequest, res: Response) => {
+   try {
+     console.log("getUsers");
+
+     const data = await memberService.getUsers();
+
+      res.render("users", { users: data });
+   } catch(err) {
+      console.log("getUsers", err)
+   }
+   
+}
 
 
+
+restaurantController.verifyRestaurant = (req: AdminRequest, res: Response, next: NextFunction) => {
+   if (req.session?.member?.memberType === MemberType.RESTAURTANT){
+       req.member = req.session.member;
+       next();
+   }
+   else {
+   const message = Message.NOT_AUTHENTICATED;
+       res.send(`<script> alert("${message}"); window.location.replace('/admin/login');</script>`);
+   }
+}
 
 
 
