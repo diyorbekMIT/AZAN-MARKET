@@ -122,6 +122,21 @@ restaurantController.getUsers = async (req: AdminRequest, res: Response) => {
    
 }
 
+restaurantController.updateChoosenUser = async (req: AdminRequest, res: Response) => {
+   try {
+      console.log("updateChoosenUers");
+      
+ 
+      const data = await memberService.updateChoosenUser(req.body);
+ 
+       res.status(HttpCode.OK).json({data: data})
+    } catch(err) {
+       console.log("getUsers", err);
+       res.send(err);
+    }
+    
+}
+
 
 
 restaurantController.verifyRestaurant = (req: AdminRequest, res: Response, next: NextFunction) => {
