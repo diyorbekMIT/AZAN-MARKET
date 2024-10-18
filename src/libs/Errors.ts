@@ -10,6 +10,7 @@ export enum HttpCode {
     INTERNAL_SERVER_ERROR = 500,
 }
 
+
 export enum Message {
     SOMETHING_WENT_WRONG = "SOMETHING WENT WRONG",
     NO_DATA_FOUND = "NO DATA FOUND",
@@ -21,7 +22,8 @@ export enum Message {
     WRONG_PASSWORD = "Wrong password",
     BAD_REQUEST = "Bad request",
 
-    NOT_AUTHENTICATED = "Not authorized"
+    NOT_AUTHENTICATED = "Not authorized",
+    BLOCKED_USER = "BLOCKED USER"
 }
 
 class Errors extends Error {
