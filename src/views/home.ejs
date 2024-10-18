@@ -1,7 +1,7 @@
 <%- include('includes/header') %>
 
 <link rel="stylesheet" type="text/css" href="/css/home.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.js"></script>
+
 
 <body>
   <div class="home-container">
@@ -17,26 +17,30 @@
         <li class="nav-item" style="cursor: pointer">
           <a class="nav-link" href="/admin/login">Login</a>
         </li>
+        
         <div class="welcome nav-item">
           <a class="nav-link active" href="/admin">YOU ARE NOT ADMIN</a>
         </div>
         <% } else { %>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/product/all">Menu</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/user/all">Users</a>
-        </li>
-        <li
-          class="nav-item"
-          style="cursor: pointer"
-          onclick="return confirm('Do you want to logout?')"
-        >
-          <a class="nav-link" href="/admin/logout">Logout</a>
-        </li>
-        div class="welcome nav-item">
-          <a class="nav-link active" href="/admin">YOU ARE ADMIN</a>
-        </div>
+
+          <li class="nav-item" style="cursor: pointer">
+            <a class="nav-link" href="/admin/product/all">Menu</a>
+          </li>
+          <li class="nav-item" style="cursor: pointer">
+            <a class="nav-link" href="/admin/user/all">Users</a>
+          </li>
+          <li
+            class="nav-item"
+            style="cursor: pointer"
+            onclick="return confirm('Do you want to logout?')"
+          >
+            <a class="nav-link" href="/admin/logout">Logout</a>
+          </li>
+
+          <div class="welcome nav-item">
+            <a class="nav-link active" href="/admin">YOU ARE NOW ADMIN</a>
+          </div>
+        
 
         <% } %>
       </ul>

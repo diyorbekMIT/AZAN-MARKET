@@ -33,10 +33,22 @@ productController.createNewProduct = async (req: AdminRequest, res: Response) =>
 
         await productService.createNewProduct(data);
 
-        res.end("<script>'Successfull Creation'; window.location.redirect('/admin/product/all')</script>");
-    } catch(err) {
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard)
+        res.send(`
+        <script>
+          alert('Successful Creation');
+          window.location.href = '/admin/product/all';
+        </script>
+      `);
+          } catch(err) {
+            res.send(`
+            <script>
+              alert('Creation Failed');
+              window.location.href = '/admin/product/all';
+            </script>
+          `);
+          
+
+
     }
         
 }
@@ -63,7 +75,7 @@ productController.getAllProducts = async (req: AdminRequest, res: Response) => {
 
        const data =  await productService.getAllProducts();
 
-       res.render("products", {products: data});
+       res.render("products",{products: data});
 
     } catch(err){
         if (err instanceof Errors) res.status(err.code).json(err);

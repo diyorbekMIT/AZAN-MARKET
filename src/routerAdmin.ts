@@ -34,7 +34,7 @@ routerAdmin.get("/product/all", restaurantController.verifyRestaurant,
 
 //USERS
 
-routerAdmin.get("/users/all",restaurantController.verifyRestaurant, restaurantController.getUsers);
+routerAdmin.get("/user/all",restaurantController.verifyRestaurant, restaurantController.getUsers);
 
 routerAdmin.post("/users/edit", restaurantController.verifyRestaurant, restaurantController.updateChoosenUser);
 

@@ -82,7 +82,10 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
      })
    } catch(err) {
       console.log("processLogin", err);
-      res.send(err);
+      const message = err instanceof Errors ? err.message : Message.NO_MEMBER_NICK;
+      res.send(
+          `<script> alert("${message}"); window.location.replace('/admin/login') </script>`
+      );
    }
 }
 
